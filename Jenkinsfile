@@ -20,9 +20,8 @@ pipeline {
                 dir("${APP_DIR}") {
                     bat """
                         "%PYTHON%" -m venv ..\\%VENV_DIR%
-                        ..\\%VENV_DIR%\\bin\\pip install --upgrade pip
-                        ..\\%VENV_DIR%\\bin\\pip install -r requirements.txt
-                        ..\\%VENV_DIR%\\bin\\pip install pytest
+                        ..\\%VENV_DIR%\\bin\\python -m pip install --upgrade pip
+                        ..\\%VENV_DIR%\\bin\\pip install --only-binary=:all: Flask pytest
                     """
                 }
             }
