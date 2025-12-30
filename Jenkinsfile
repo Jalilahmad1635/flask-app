@@ -4,6 +4,7 @@ pipeline {
     environment {
         APP_DIR  = "flask"
         VENV_DIR = "venv"
+        PYTHON   = "C:\\msys64\\ucrt64\\bin\\python.exe"
     }
 
     stages {
@@ -18,7 +19,7 @@ pipeline {
             steps {
                 dir("${APP_DIR}") {
                     bat """
-                        py -m venv ..\\%VENV_DIR%
+                        "%PYTHON%" -m venv ..\\%VENV_DIR%
                         ..\\%VENV_DIR%\\Scripts\\pip install --upgrade pip
                         ..\\%VENV_DIR%\\Scripts\\pip install -r requirements.txt
                         ..\\%VENV_DIR%\\Scripts\\pip install pytest
