@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        VENV_DIR = ".venv"
         APP_DIR  = "flask"
+        VENV_DIR = "venv"
     }
 
     stages {
@@ -14,25 +14,25 @@ pipeline {
             }
         }
 
-        stage('Setup Python + Install Dependencies') {
+        stage('Install Dependencies') {
             steps {
                 dir("${APP_DIR}") {
-                    sh '''
-                        python3 -m venv ../${VENV_DIR}
-                        ../${VENV_DIR}/bin/pip install --upgrade pip
-                        ../${VENV_DIR}/bin/pip install -r requirements.txt
-                        ../${VENV_DIR}/bin/pip install pytest
-                    '''
+                    bat """
+                        python -m venv ..\\%VENV_DIR%
+                        ..\\%VENV_DIR%\\Scripts\\pip install --upgrade pip
+                        ..\\%VENV_DIR%\\Scripts\\pip install -r requirements.txt
+                        ..\\%VENV_DIR%\\Scripts\\pip install pytest
+                    """
                 }
             }
         }
 
-        stage('Unit Tests (pytest)') {
+        stage('Run Unit Tests') {
             steps {
                 dir("${APP_DIR}") {
-                    sh '''
-                        ../${VENV_DIR}/bin/pytest -q || exit 1
-                    '''
+                    bat """
+                        ..\\%VENV_DIR%\\Scripts\\pytest
+                    """
                 }
             }
         }
@@ -40,10 +40,9 @@ pipeline {
         stage('Build Application') {
             steps {
                 dir("${APP_DIR}") {
-                    sh '''
-                        echo "Build step: packaging / sanity check"
-                        ../${VENV_DIR}/bin/python -m py_compile app.py
-                    '''
+                    bat """
+                        ..\\%VENV_DIR%\\Scripts\\python -m py_compile app.py
+                    """
                 }
             }
         }
@@ -51,19 +50,12 @@ pipeline {
         stage('Deploy Application') {
             steps {
                 dir("${APP_DIR}") {
-                    sh '''
-                        echo "Deploy step (demo): starting Flask app"
-                        echo "In real deploy you would systemctl restart / docker build+run / kubectl apply"
-                        nohup ../${VENV_DIR}/bin/python app.py > ../app.log 2>&1 &
-                    '''
+                    bat """
+                        echo Deploying Flask Application
+                        ..\\%VENV_DIR%\\Scripts\\python app.py
+                    """
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            archiveArtifacts artifacts: 'app.log', allowEmptyArchive: true
         }
     }
 }
