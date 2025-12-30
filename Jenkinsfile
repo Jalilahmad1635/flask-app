@@ -18,7 +18,7 @@ pipeline {
             steps {
                 dir("${APP_DIR}") {
                     bat """
-                        python -m venv ..\\%VENV_DIR%
+                        py -m venv ..\\%VENV_DIR%
                         ..\\%VENV_DIR%\\Scripts\\pip install --upgrade pip
                         ..\\%VENV_DIR%\\Scripts\\pip install -r requirements.txt
                         ..\\%VENV_DIR%\\Scripts\\pip install pytest
