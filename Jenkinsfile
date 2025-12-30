@@ -20,9 +20,9 @@ pipeline {
                 dir("${APP_DIR}") {
                     bat """
                         "%PYTHON%" -m venv ..\\%VENV_DIR%
-                        ..\\%VENV_DIR%\\Scripts\\pip install --upgrade pip
-                        ..\\%VENV_DIR%\\Scripts\\pip install -r requirements.txt
-                        ..\\%VENV_DIR%\\Scripts\\pip install pytest
+                        ..\\%VENV_DIR%\\bin\\pip install --upgrade pip
+                        ..\\%VENV_DIR%\\bin\\pip install -r requirements.txt
+                        ..\\%VENV_DIR%\\bin\\pip install pytest
                     """
                 }
             }
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 dir("${APP_DIR}") {
                     bat """
-                        ..\\%VENV_DIR%\\Scripts\\pytest
+                        ..\\%VENV_DIR%\\bin\\pytest
                     """
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
             steps {
                 dir("${APP_DIR}") {
                     bat """
-                        ..\\%VENV_DIR%\\Scripts\\python -m py_compile app.py
+                        ..\\%VENV_DIR%\\bin\\python -m py_compile app.py
                     """
                 }
             }
@@ -53,7 +53,7 @@ pipeline {
                 dir("${APP_DIR}") {
                     bat """
                         echo Deploying Flask Application
-                        ..\\%VENV_DIR%\\Scripts\\python app.py
+                        ..\\%VENV_DIR%\\bin\\python app.py
                     """
                 }
             }
