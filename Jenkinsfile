@@ -21,7 +21,7 @@ pipeline {
                     bat """
                         "%PYTHON%" -m venv ..\\%VENV_DIR%
                         ..\\%VENV_DIR%\\bin\\python -m pip install --upgrade pip
-                        ..\\%VENV_DIR%\\bin\\pip install --only-binary=:all: Flask pytest
+                        ..\\%VENV_DIR%\\bin\\pip install Flask==2.3.3 MarkupSafe==2.1.5 pytest
                     """
                 }
             }
