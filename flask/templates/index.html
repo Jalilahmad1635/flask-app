@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board</title>
+</head>
+<body>
+    <h1>Board</h1>
+
+    <form method="POST" action="/">
+        <label for="author">Your Name:</label><br>
+        <input type="text" id="author" name="author" required><br><br>
+        <label for="text">Message:</label><br>
+        <textarea id="text" name="text" required></textarea><br><br>
+        <button type="submit">Post</button>
+    </form>
+
+    <h2>All Notes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Author</th>
+                <th>Message</th>
+                <th>Posted At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in items %}
+            <tr>
+                <td>{{ row.author }}</td>
+                <td>{{ row.text }}</td>
+                <td>{{ row.ts.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">No entries yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
